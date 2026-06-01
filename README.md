@@ -8,7 +8,7 @@ sistemas de autenticacion remota bancaria.
 - Baldarrago Samatelo, Piero
 - De los Rios Peralta, Jean Mael
 - Guerra Huanaco, Keny Russell
-- Sayritupac, Asqui Jeampier
+- Sayritupac Asqui, Jeampier
 
 **Institucion:** Escuela Profesional de Ingenieria de Sistemas, UCSM, Arequipa, Peru
 
