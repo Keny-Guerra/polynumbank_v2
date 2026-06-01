@@ -1,0 +1,35 @@
+{
+  "name": "polynumbank",
+  "version": "1.1.0",
+  "description": "POLY-NUM: Algoritmo de cifrado asimetrico basado en numeros poligonales para la proteccion de credenciales en sistemas de autenticacion remota bancaria.",
+  "main": "src/polynum.js",
+  "scripts": {
+    "demo"    : "node demo/demo.js",
+    "servidor": "node src/servidor.js",
+    "cliente" : "node src/cliente.js",
+    "test"    : "node test/tests.js"
+  },
+  "authors": [
+    "Baldarrago Samatelo, Piero <piero.baldarrago@estudiante.ucsm.edu.pe>",
+    "De los Rios Peralta, Jean Mael <jean.delosrios@estudiante.ucsm.edu.pe>",
+    "Guerra Huanaco, Keny Russell <keny.guerra@estudiante.ucsm.edu.pe>",
+    "Sayritupac, Asqui Jeampier <jeampier.sayritupac@estudiante.ucsm.edu.pe>"
+  ],
+  "institution": "Escuela Profesional de Ingenieria de Sistemas, Universidad Catolica de Santa Maria, Arequipa, Peru",
+  "keywords": [
+    "criptografia",
+    "cifrado-asimetrico",
+    "numeros-poligonales",
+    "banca-en-linea",
+    "autenticacion-remota",
+    "seguridad-credenciales",
+    "xor",
+    "lightweight-cryptography",
+    "ciberseguridad"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "nota_academica": "Prototipo de investigacion academica. No usar en produccion sin incorporar nonce aleatorio y derivacion de mascara via SHA-256."
+}
