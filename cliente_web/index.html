@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>POLY-NUM — Inicio de Sesión</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d1117;
+      --card:    #161b22;
+      --border:  #21262d;
+      --accent:  #58a6ff;
+      --green:   #3fb950;
+      --red:     #f85149;
+      --text:    #e6edf3;
+      --muted:   #8b949e;
+      --mono:    'Consolas', 'Courier New', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* ── Logo ── */
+    .brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 auto 14px;
+      box-shadow: 0 0 30px rgba(14,165,233,0.25);
+    }
+
+    .brand h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .brand p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+      font-family: var(--mono);
+    }
+
+    /* ── Card ── */
+    .card {
+      width: 100%;
+      max-width: 360px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+    }
+
+    /* ── Form ── */
+    .field { margin-bottom: 16px; }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 7px;
+    }
+
+    .input-wrap { position: relative; }
+
+    .field input {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      font-family: inherit;
+    }
+
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(88,166,255,0.12);
+    }
+
+    .field input::placeholder { color: #484f58; }
+
+    .eye {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 2px 4px;
+    }
+    .eye:hover { color: var(--text); }
+
+    /* ── Button ── */
+    .btn {
+      width: 100%;
+      padding: 11px;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      color: #0d1117;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:hover:not(:disabled) { opacity: 0.85; }
+    .btn:active:not(:disabled) { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(0,0,0,0.2);
+      border-top-color: #0d1117;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Resultado ── */
+    .result {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: none;
+      line-height: 1.6;
+    }
+
+    .result.ok {
+      background: rgba(63,185,80,0.08);
+      border: 1px solid rgba(63,185,80,0.25);
+      color: var(--green);
+    }
+
+    .result.fail {
+      background: rgba(248,81,73,0.08);
+      border: 1px solid rgba(248,81,73,0.25);
+      color: var(--red);
+    }
+
+    .result .res-label {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .token-box {
+      margin-top: 8px;
+      padding: 7px 10px;
+      background: rgba(63,185,80,0.06);
+      border: 1px solid rgba(63,185,80,0.15);
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #7ee787;
+      word-break: break-all;
+    }
+
+    .token-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    /* ── Status ── */
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 18px;
+      justify-content: center;
+      font-family: var(--mono);
+    }
+
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+    .dot.on  { background: var(--green); box-shadow: 0 0 5px var(--green); }
+    .dot.off { background: var(--red); }
+
+    /* ── Nota CMD ── */
+    .cmd-note {
+      margin-top: 20px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .cmd-note .cmd-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #484f58;
+      margin-bottom: 6px;
+    }
+
+    .cmd-note code {
+      color: var(--accent);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* ── Hint usuarios ── */
+    .hint {
+      margin-top: 16px;
+      font-size: 11px;
+      color: #484f58;
+      text-align: center;
+      font-family: var(--mono);
+      line-height: 1.8;
+    }
+
+    .hint span {
+      color: var(--muted);
+      cursor: pointer;
+      transition: color .15s;
+    }
+    .hint span:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="brand">
+    <div class="brand-icon">P</div>
+    <h1>POLY-NUM Banking</h1>
+    <p>Cifrado asimétrico en capa de aplicación</p>
+  </div>
+
+  <div class="card">
+
+    <div class="field">
+      <label>Usuario</label>
+      <input type="text" id="usuario" placeholder="Nombre de usuario"
+             autocomplete="username" />
+    </div>
+
+    <div class="field">
+      <label>Contraseña</label>
+      <div class="input-wrap">
+        <input type="password" id="password"
+               placeholder="Contraseña"
+               autocomplete="current-password" />
+        <button class="eye" onclick="togglePass()">&#128065;</button>
+      </div>
+    </div>
+
+    <button class="btn" id="btn" onclick="login()">
+      <div class="spinner" id="sp"></div>
+      <span id="btnTxt">Iniciar sesión</span>
+    </button>
+
+    <div class="result" id="result"></div>
+
+    <div class="status">
+      <div class="dot" id="dot"></div>
+      <span id="stTxt">Verificando servidor...</span>
+    </div>
+
+    <div class="cmd-note">
+      <div class="cmd-title">Ver proceso en tiempo real</div>
+      Ejecuta el servidor en tu terminal:
+      <code>node src/servidor.js</code>
+      Cada inicio de sesion muestra el proceso completo en CMD.
+    </div>
+
+    <div class="hint">
+      Usuarios de prueba (clic para cargar):<br>
+      <span onclick="fill('jperez','Banc@2024')">jperez / Banc@2024</span>
+      &nbsp;·&nbsp;
+      <span onclick="fill('mgarcia','Seguro#99')">mgarcia / Seguro#99</span>
+      &nbsp;·&nbsp;
+      <span onclick="fill('admin','Admin!2025')">admin / Admin!2025</span>
+    </div>
+
+  </div>
+
+<script>
+'use strict';
+
+const SERVER = 'http://localhost:3000';
+
+/* ── POLY-NUM en el navegador ── */
+function cifrar(texto, p1) {
+  const bytes   = new TextEncoder().encode(texto);
+  const cifrado = new Uint8Array(bytes.length);
+  for (let i = 0; i < bytes.length; i++) {
+    const mask = (p1 * (i + 1)) % 256;
+    cifrado[i] = bytes[i] ^ mask;
+  }
+  return Array.from(cifrado)
+    .map(b => b.toString(16).padStart(2, '0').toUpperCase())
+    .join('');
+}
+
+/* ── Helpers UI ── */
+function fill(u, p) {
+  document.getElementById('usuario').value  = u;
+  document.getElementById('password').value = p;
+}
+
+function togglePass() {
+  const i = document.getElementById('password');
+  i.type = i.type === 'password' ? 'text' : 'password';
+}
+
+function setLoading(on) {
+  document.getElementById('btn').disabled       = on;
+  document.getElementById('sp').style.display   = on ? 'block' : 'none';
+  document.getElementById('btnTxt').textContent = on ? 'Procesando...' : 'Iniciar sesión';
+}
+
+function showResult(ok, data) {
+  const el = document.getElementById('result');
+  el.style.display = 'block';
+  if (ok) {
+    el.className = 'result ok';
+    el.innerHTML = `
+      <div class="res-label">&#10003; Autenticación exitosa</div>
+      ${data.mensaje || ''}
+      <div class="token-box">
+        <div class="token-label">Token de sesión</div>
+        ${data.token || ''}
+      </div>`;
+  } else {
+    el.className = 'result fail';
+    el.innerHTML = `
+      <div class="res-label">&#10005; Acceso denegado</div>
+      ${data.error || 'Credenciales incorrectas.'}`;
+  }
+}
+
+/* ── Login ── */
+async function login() {
+  const usuario  = document.getElementById('usuario').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!usuario || !password) {
+    alert('Ingresa usuario y contraseña.');
+    return;
+  }
+
+  setLoading(true);
+  document.getElementById('result').style.display = 'none';
+
+  try {
+    /* Etapa 1: obtener P1 */
+    const r1   = await fetch(`${SERVER}/clave-publica`);
+    const d1   = await r1.json();
+    const p1   = d1.clavePublica;
+
+    /* Etapa 2: cifrar localmente */
+    const hex = cifrar(password, p1);
+
+    /* Etapas 3-5: enviar y recibir respuesta */
+    const r2  = await fetch(`${SERVER}/autenticar`, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({ usuario, passwordCifrado: hex, p1Cliente: p1 })
+    });
+    const d2 = await r2.json();
+
+    showResult(r2.ok && d2.ok, d2);
+
+  } catch (e) {
+    showResult(false, { error: 'No se pudo conectar al servidor. Ejecuta: node src/servidor.js' });
+  } finally {
+    setLoading(false);
+  }
+}
+
+/* ── Estado del servidor ── */
+async function checkServer() {
+  const dot = document.getElementById('dot');
+  const txt = document.getElementById('stTxt');
+  try {
+    const r = await fetch(`${SERVER}/clave-publica`,
+                { signal: AbortSignal.timeout(3000) });
+    const d = await r.json();
+    dot.className  = 'dot on';
+    txt.textContent = `Servidor activo — P1 = ${d.clavePublica}`;
+  } catch {
+    dot.className  = 'dot off';
+    txt.textContent = 'Servidor desconectado';
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+checkServer();
+setInterval(checkServer, 8000);
+</script>
+</body>
+</html>

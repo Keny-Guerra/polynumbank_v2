@@ -240,7 +240,6 @@ async function demo() {
   console.log('');
   console.log('+==============================================+');
   console.log('|       CLIENTE BANCARIO  --  POLY-NUM        |');
-  console.log('|   Escuela de Ingenieria de Sistemas  UCSM   |');
   console.log('+==============================================+');
   console.log('');
   console.log('  Iniciando demostracion del protocolo de autenticacion...');
